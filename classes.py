@@ -28,7 +28,7 @@ class Player:
     def __init__(self, name, number):
         self.__name, self.__number = name, number
         self.__money = 1500
-        self.__propertes = []
+        self.__properties = []
         self.__position = 0
     def get_name(self):
         return self.__name
@@ -70,7 +70,7 @@ class Game:
         board.append(Space('St. James Place',180,14,70,200,550,750,950,100))
         board.append(Space('Community Chest',0,0,0,0,0,0,0,0))
         board.append(Space('Tennesse Avenue',180,14,70,200,550,750,950,100))
-        board.append(Space('New York Avenue',200,16,80,220,600,800,1000))
+        board.append(Space('New York Avenue',200,16,80,220,600,800,1000,100))
         board.append(Space('Free Parking',0,0,0,0,0,0,0,0))
 
         board.append(Space('Kentucky Avenue',220,18,90,250,700,875,1050,150))
@@ -159,4 +159,10 @@ class Game:
 
     def add_cc_goojf(self):
         self.__cc.append({'refcode':5,'message':'Get Out of Jail Free'})
+
+    def roll_dice(self):
+        one = random.randint(1,6)
+        two = random.randint(1,6)
+
+        return (one+two, one==two)
 
