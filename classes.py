@@ -1,7 +1,7 @@
 import random 
 
 class Space:
-    __slots__ = ['__current_house','__name','__cost','__rent','__onehouse','__twohouse','__threehouse','__fourhouse','__hotel','__mortgage', '__owner', '__house_cost']
+    __slots__ = ['__current_house','__name','__cost','__rent','__onehouse','__twohouse','__threehouse','__fourhouse','__hotel','__mortgage', '__owner', '__house_cost',]
 
     def __init__(self, name, cost, rent, onehouse, twohouse, threehouse, fourhouse, hotel, house_cost):
         self.__name, self.__cost,self. __rent, self.__onehouse, self.__twohouse, self.__threehouse, self.__fourhouse, self.__hotel, self.__house_cost = name, cost, rent, onehouse, twohouse, threehouse, fourhouse, hotel, house_cost
@@ -9,7 +9,7 @@ class Space:
         self.__current_house = 0
 
     def get_attributes(self):
-        result = [self.__name, self.__cost, self.__rent, self.__onehouse, self.__twohouse, self.__threehouse, self.__fourhouse, self.__hotel, self.__owner, self.__house_cost]
+        result = [self.__name, self.__cost, self.__rent, self.__onehouse, self.__twohouse, self.__threehouse, self.__fourhouse, self.__hotel, self.__owner, self.__house_cost, self.__current_house]
         return result
     
     def assign_owner(self, owner):
@@ -19,8 +19,26 @@ class Space:
         if player_to_check.get_name() == self.__owner:
             return True
         return False
+    def get_owner(self):
+        return self.__owner
     def purchase_house(self):
         self.__current_house += 1
+    def get_rent(self):
+        if self.__current_house == 0:
+            return self.__rent
+        elif self.__current_house == 1:
+            return self.__onehouse
+        elif self.__current_house ==2:
+            return self.__twohouse
+        elif self.__current_house ==3:
+            return self.__threehouse
+        elif self.__current_house ==4:
+            return self.__fourhouse
+        elif self.current__house == 5:
+            return self.__hotel
+        else:
+            #Error
+            return -1
 
 class Player:
     __slots__  = ['__name', '__number','__money','__properties', '__position']
@@ -35,12 +53,16 @@ class Player:
     def add_money(self, amount):
         self.__money += amount
         return self.__money
+    def get_money(self):
+        return self.__money
     def move_spaces(self, spaces):
         self.__position += spaces
 
         if self.__position > 39:
             self.__position -=40
         return self.__position
+    def get_position(self):
+        return (self.__position)
 
 class Game:
     __slots__ = ['__board', '__players', '__chance','__cc']
@@ -165,4 +187,7 @@ class Game:
         two = random.randint(1,6)
 
         return (one+two, one==two)
+    def get_space(self,index):
+        return self.__board[index]
+
 
