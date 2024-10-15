@@ -16,9 +16,12 @@ class Space:
         self.__owner = owner
 
     def check_ownership(self, player_to_check):
-        if player_to_check.get_name() == self.__owner:
-            return True
-        return False
+        try:
+            if player_to_check.get_name() == self.__owner:
+                return True
+            return False
+        except AttributeError:
+            return self.__owner is None
     def get_owner(self):
         return self.__owner
     def purchase_house(self):
@@ -73,6 +76,7 @@ class Game:
 
         #Create all the properties
         board = []
+        board.append(Space('Go',0,0,0,0,0,0,0,0))
         board.append(Space('Mediterranean Avenue',60,2,10,30,90,160,250,50))
         board.append(Space('Community Chest',0,0,0,0,0,0,0,0))
         board.append(Space('Baltic Avenue',60,4,20,60,180,320,450,50))

@@ -13,7 +13,7 @@ def init():
         #'__name', '__number','__money','__properties', '__position'
         #Get the name for each player and create them
         name = input('What is player ' + str(i+1) + '\'s name?')
-        player = classes.Player(i +1, name)
+        player = classes.Player(name, i+1)
 
         #Add each to the player list
         player_list.append(player)
@@ -32,7 +32,7 @@ def take_turn(player, game,player_list):
     while True:
         #Roll 
         input (f'Press enter to roll! This is roll number {roll_number}')
-        roll = game.roll_dice
+        roll = game.roll_dice()
         roll_number +=1 
 
         #Check for 3 rounds of doubles, otherwise move
@@ -42,19 +42,21 @@ def take_turn(player, game,player_list):
 
         # Get the space
         print (f'You move {roll[0]} spaces!')
+        if roll[1]:
+            print ('You rolled doubles!')
         player.move_spaces(roll[0])
         space = game.get_space(player.get_position())
         space_attributes = space.get_attributes()
         # Announce the space
         print(f"You have landed on {space_attributes[0]}")
-
+        print (space_attributes)
         # Take action
-        if space[0] in SPECIAL:
+        if space_attributes[0] in SPECIAL:
             #Do something special 
             pass
         else:
             #It's a property
-            if space.check_ownership(player.get_name()):
+            if space.check_ownership(player):
                 #We own this - take no action
                 input ('You already own this property - press enter to continue')
             elif space.check_ownership(None):
@@ -70,7 +72,7 @@ def take_turn(player, game,player_list):
                     if purchase == '1':
                         #Player buys the property
                         space.assign_owner(player.get_name())
-                        player.add_money(-1 * space_attributes[2])
+                        player.add_money(-1 * space_attributes[1])
                         print (f'Property purchased - you now have {player.get_money()} dollars')
             else:
                 #The property belongs to someone else
@@ -93,6 +95,9 @@ def take_turn(player, game,player_list):
 
 def main():
     game, player_list = init()
+    while True:
+        for player in player_list:
+            take_turn(player,game,player_list)
 
 
 if __name__ == "__main__":
